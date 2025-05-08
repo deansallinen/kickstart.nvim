@@ -2,4 +2,11 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
-return {}
+return {
+  {
+    'kylechui/nvim-surround', -- Surround text objects with symbols
+    version = '*', -- Use for stability; omit to use `main` branch for the latest features
+    event = 'VeryLazy',
+    opts = {},
+  },
+}
