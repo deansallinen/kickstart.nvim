@@ -496,7 +496,15 @@ require('lazy').setup {
     'catppuccin/nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      require('catppuccin').setup {}
+      require('catppuccin').setup {
+        integrations = {
+          indent_blankline = {
+            enabled = true,
+            scope_color = 'lavender',
+            colored_indent_levels = false,
+          },
+        },
+      }
       vim.cmd.colorscheme 'catppuccin'
     end,
   },
