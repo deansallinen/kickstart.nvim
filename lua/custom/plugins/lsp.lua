@@ -214,6 +214,10 @@ return {
         root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', 'index.js', 'app.js'),
         capabilities = capabilities,
       }
+
+      lspconfig.gleam.setup {
+        capabilities = capabilities,
+      }
     end,
   },
 }
