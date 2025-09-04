@@ -1,5 +1,17 @@
 return {
   {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {
+      settings = {
+        -- TSTools will not provide diagnostics, allowing Biome to be the source
+        diagnostics_enable = false,
+        -- You can also disable the built-in formatter if you want Biome to handle all formatting
+        formatter = 'biome', -- or just disable it: formatter_enable = false,
+      },
+    },
+  },
+  {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
     'folke/lazydev.nvim',
@@ -163,24 +175,28 @@ return {
         capabilities = capabilities,
       }
 
-      lspconfig.markdownls.setup {
-        capabilities = capabilities,
-      }
+      -- lspconfig.markdownls.setup {
+      --   capabilities = capabilities,
+      -- }
 
       lspconfig.jsonls.setup {
         capabilities = capabilities,
       }
 
-      lspconfig.tailwindcss.setup {
-        filetypes = { 'css' },
-        capabilities = capabilities,
-      }
+      -- lspconfig.tailwindcss.setup {
+      --   filetypes = { 'css' },
+      --   capabilities = capabilities,
+      -- }
 
       lspconfig.nixd.setup {
         capabilities = capabilities,
       }
 
       lspconfig.cssls.setup {
+        capabilities = capabilities,
+      }
+
+      lspconfig.biome.setup {
         capabilities = capabilities,
       }
 
@@ -198,22 +214,44 @@ return {
 
       lspconfig.lua_ls.setup {
         capabilities = capabilities,
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              globals = { 'vim', 'love' },
+              disable = { 'lowercase-global' },
+            },
+            workspace = {
+              userThirdParty = { os.getenv 'HOME' .. '/.local/share/lls-addons' },
+              checkThirdParty = 'Apply',
+              -- manually add love2d since it doesn't appear otherwise - dunno why
+              library = {
+                '${3rd}/love2d/library',
+              },
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
       }
 
-      lspconfig.ts_ls.setup {
-        filetypes = {
-          'svelte',
-          'javascript',
-          'javascriptreact',
-          'javascript.jsx',
-          'typescript',
-          'typescriptreact',
-          'typescript.tsx',
-        },
-        cmd = { 'typescript-language-server', '--stdio' },
-        root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', 'index.js', 'app.js'),
-        capabilities = capabilities,
-      }
+      -- lspconfig.ts_ls.setup {
+      --   filetypes = {
+      --     'svelte',
+      --     'javascript',
+      --     'javascriptreact',
+      --     'javascript.jsx',
+      --     'typescript',
+      --     'typescriptreact',
+      --     'typescript.tsx',
+      --   },
+      --   cmd = { 'typescript-language-server', '--stdio' },
+      --   root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', 'index.js', 'app.js'),
+      --   capabilities = capabilities,
+      -- }
 
       lspconfig.gleam.setup {
         capabilities = capabilities,
@@ -225,7 +263,7 @@ return {
 -- These settings helped with Lua and Love
 -- --       lua_ls = {
 -- --         settings = {
--- --           Lua = {
+-- --           lua = {
 -- --             diagnostics = {
 -- --               globals = { 'vim', 'love' },
 -- --             },
