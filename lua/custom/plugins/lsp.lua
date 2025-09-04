@@ -1,4 +1,9 @@
 return {
+  -- {
+  --   'pmizio/typescript-tools.nvim',
+  --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+  --   opts = {},
+  -- },
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -163,9 +168,9 @@ return {
         capabilities = capabilities,
       }
 
-      lspconfig.markdownls.setup {
-        capabilities = capabilities,
-      }
+      -- lspconfig.markdownls.setup {
+      --   capabilities = capabilities,
+      -- }
 
       lspconfig.jsonls.setup {
         capabilities = capabilities,
