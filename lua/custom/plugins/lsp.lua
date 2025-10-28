@@ -7,7 +7,8 @@ return {
         -- TSTools will not provide diagnostics, allowing Biome to be the source
         diagnostics_enable = false,
         -- You can also disable the built-in formatter if you want Biome to handle all formatting
-        formatter = 'biome', -- or just disable it: formatter_enable = false,
+        -- formatter = 'biome', -- or just disable it: formatter_enable = false,
+        formatter_enable = false,
       },
     },
   },
@@ -112,6 +113,7 @@ return {
         'astro',
         'lua_ls',
         'gleam',
+        'prettier',
       }
 
       vim.lsp.config('lua_ls', {
