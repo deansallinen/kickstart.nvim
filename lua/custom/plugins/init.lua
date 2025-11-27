@@ -16,7 +16,8 @@ return {
       'tpope/vim-repeat',
     },
     config = function()
-      require('leap').add_default_mappings()
+      -- require('leap').add_default_mappings()
+      vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
     end,
   },
 }
