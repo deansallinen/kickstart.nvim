@@ -3,11 +3,20 @@ return {
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {
+      filetypes = {
+        'typescript',
+        'javascript',
+        'typescriptreact',
+        'javascriptreact',
+        'typescript.tsx',
+        'javascript.jsx',
+        -- 'svelte',
+      },
       settings = {
-        -- TSTools will not provide diagnostics, allowing Biome to be the source
-        diagnostics_enable = false,
+        -- diagnostics_enable = true,
+        -- expose_as_code_action = { 'all' },
         -- You can also disable the built-in formatter if you want Biome to handle all formatting
-        -- formatter = 'biome', -- or just disable it: formatter_enable = false,
+        -- formatter = 'false', -- or just disable it: formatter_enable = false,
         formatter_enable = false,
       },
     },
@@ -57,6 +66,14 @@ return {
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('<leader>oi', function()
+            local client = vim.lsp.get_client_by_id(event.data.client_id)
+            if client and client.name == 'typescript-tools' then
+              require('typescript-tools.actions').organize_imports()
+            else
+              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' } } }
+            end
+          end, '[O]rganize [I]mports')
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client:supports_method 'textDocument/inlayHint' then
@@ -107,13 +124,12 @@ return {
         'nixd',
         'openscad_lsp',
         'cssls',
-        'biome',
-        'eslint',
+        -- 'biome',
         'html',
         'astro',
         'lua_ls',
         'gleam',
-        'prettier',
+        -- 'eslint',
       }
 
       vim.lsp.config('lua_ls', {
@@ -140,21 +156,6 @@ return {
           },
         },
       })
-
-      -- lspconfig.ts_ls.setup {
-      --   filetypes = {
-      --     'svelte',
-      --     'javascript',
-      --     'javascriptreact',
-      --     'javascript.jsx',
-      --     'typescript',
-      --     'typescriptreact',
-      --     'typescript.tsx',
-      --   },
-      --   cmd = { 'typescript-language-server', '--stdio' },
-      --   root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json', 'index.js', 'app.js'),
-      --   capabilities = capabilities,
-      -- }
     end,
   },
 }
